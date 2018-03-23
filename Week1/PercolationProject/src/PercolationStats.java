@@ -1,8 +1,11 @@
-import edu.princeton.cs.algs4.*;
+import edu.princeton.cs.algs4.StdOut;
+import edu.princeton.cs.algs4.StdRandom;
+import edu.princeton.cs.algs4.StdStats;
 
 public class PercolationStats {
-    private Percolation perc;
-    private double[] experiments;
+    private final double[] experiments;
+    private double mMean = 0;
+    private double mStdenv = -1;
 
     public PercolationStats(int n, int trials)
     {
@@ -13,49 +16,27 @@ public class PercolationStats {
 
         experiments = new double[trials];
 
-        boolean needDraw = true;
-
-        if (needDraw)
-            StdDraw.enableDoubleBuffering();
-
-        for(int i = 0; i < trials; ++i)
+        for (int i = 0; i < trials; ++i)
         {
-            Stopwatch timer = new Stopwatch();
-            perc = new Percolation(n);
-
-            if (needDraw)
-            {
-                PercolationVisualizer.draw(perc, n);
-                StdDraw.show();
-                StdDraw.pause(100);
-            }
+            Percolation perc = new Percolation(n);
 
             while (!perc.percolates())
             {
                 perc.open(StdRandom.uniform(n) + 1, StdRandom.uniform(n) + 1);
-
-                if (needDraw)
-                {
-                    PercolationVisualizer.draw(perc, n);
-                    StdDraw.show();
-                    StdDraw.pause(100);
-                }
             }
 
-            double time = timer.elapsedTime();
-            StdOut.println("Experiment " + i + " time: " + time + " sec");
-            experiments[i] = (double)perc.numberOfOpenSites()/(n * n);
+            experiments[i] = (double) perc.numberOfOpenSites()/(n * n);
         }
     }
 
     public double mean()
     {
-        return StdStats.mean(experiments);
+        return mMean == 0 ? mMean = StdStats.mean(experiments) : mMean;
     }
 
     public double stddev()
     {
-        return StdStats.stddev(experiments);
+        return mStdenv < 0 ? mStdenv = StdStats.stddev(experiments) : mStdenv;
     }
 
     public double confidenceLo()

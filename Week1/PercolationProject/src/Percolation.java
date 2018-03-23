@@ -1,13 +1,13 @@
 import edu.princeton.cs.algs4.WeightedQuickUnionUF;
 
 public class Percolation {
-private WeightedQuickUnionUF m_wq;
-private boolean[] m_isOpen;
-private int m_openSiteNum = 0;
-private int m_top = 0;
-private int m_bot = 1;
-private int m_offset = 2;
-private int m_len;
+private final WeightedQuickUnionUF quickUnionUF;
+private boolean[] isOpenSites;
+private int openSiteCount = 0;
+private final int topSite = 0;
+private final int botSite = 1;
+private final int siteOffset = 2;
+private final int gridSize;
 
 public Percolation(int n)
 {
@@ -16,9 +16,9 @@ public Percolation(int n)
         throw new IllegalArgumentException("Ctor wrong grid size: " + n);
     }
 
-    m_wq = new WeightedQuickUnionUF( n * n + 2);
-    m_isOpen = new boolean[n * n];
-    m_len = n;
+    quickUnionUF = new WeightedQuickUnionUF(n * n + 2);
+    isOpenSites = new boolean[n * n];
+    gridSize = n;
 }
 
 public void open(int row, int col)
@@ -33,27 +33,30 @@ public void open(int row, int col)
         return;
     }
 
-    ++m_openSiteNum;
+    ++openSiteCount;
 
     int siteIndex = getSiteIndex(row, col);
-    m_isOpen[siteIndex] = true;
+    isOpenSites[siteIndex] = true;
 
-    if (siteIndex % m_len < m_len - 1 && m_isOpen[siteIndex + 1])
-        m_wq.union(siteIndex + m_offset, siteIndex + 1 + m_offset);
-    if (siteIndex % m_len > 0 && m_isOpen[siteIndex - 1])
-        m_wq.union(siteIndex + m_offset, siteIndex - 1 + m_offset);
-    if (siteIndex / m_len > 0 && m_isOpen[siteIndex - m_len])
-        m_wq.union(siteIndex + m_offset, siteIndex - m_len + m_offset);
-    if (siteIndex / m_len < m_len - 1 && m_isOpen[siteIndex + m_len])
-        m_wq.union(siteIndex + m_offset, siteIndex + m_len + m_offset);
+    if (siteIndex % gridSize < gridSize - 1 && isOpenSites[siteIndex + 1])
+        quickUnionUF.union(siteIndex + siteOffset, siteIndex + 1 + siteOffset);
+    if (siteIndex % gridSize > 0 && isOpenSites[siteIndex - 1])
+        quickUnionUF.union(siteIndex + siteOffset, siteIndex - 1 + siteOffset);
+    if (siteIndex / gridSize > 0 && isOpenSites[siteIndex - gridSize])
+        quickUnionUF.union(siteIndex + siteOffset, siteIndex - gridSize + siteOffset);
+    if (siteIndex / gridSize < gridSize - 1 && isOpenSites[siteIndex + gridSize])
+        quickUnionUF.union(siteIndex + siteOffset, siteIndex + gridSize + siteOffset);
 
-    //
     // Try to connect with virtual top and bottom site
-    //
     if (row == 1)
-        m_wq.union(m_top, siteIndex + m_offset);
-    if (row == m_len)
-        m_wq.union(m_bot, siteIndex + m_offset);
+        quickUnionUF.union(topSite, siteIndex + siteOffset);
+
+    boolean isNearFull = (siteIndex % gridSize < gridSize - 1 && quickUnionUF.connected(topSite, siteIndex + 1 + siteOffset))
+            || (siteIndex % gridSize > 0 && quickUnionUF.connected(topSite, siteIndex - 1 + siteOffset))
+            || (siteIndex / gridSize > 0 && quickUnionUF.connected(topSite, siteIndex - gridSize + siteOffset));
+
+    if (row == gridSize && isNearFull)
+        quickUnionUF.union(botSite, siteIndex + siteOffset);
 }
 
 public boolean isOpen(int row, int col)
@@ -64,7 +67,7 @@ public boolean isOpen(int row, int col)
     }
 
     int siteIndex = getSiteIndex(row, col);
-    return m_isOpen[siteIndex];
+    return isOpenSites[siteIndex];
 }
 
 public boolean isFull(int row, int col)
@@ -74,27 +77,27 @@ public boolean isFull(int row, int col)
         throw new IllegalArgumentException("Wrong arguments row: " + row + " col: " + col);
     }
 
-    return m_wq.connected(m_top, getSiteIndex(row, col) + m_offset);
+    return quickUnionUF.connected(topSite, getSiteIndex(row, col) + siteOffset);
 }
 
 public int numberOfOpenSites()
 {
-    return m_openSiteNum;
+    return openSiteCount;
 }
 
 public boolean percolates()
 {
-    return m_wq.connected(m_top, m_bot);
+    return quickUnionUF.connected(topSite, botSite);
 }
 
 private int getSiteIndex(int row, int col)
 {
-    return (col - 1) + (row - 1) * m_len;
+    return (col - 1) + (row - 1) * gridSize;
 }
 
 private boolean isInRange(int row, int col)
 {
-    return row >= 1 && row <= m_len && col >= 1 && col <= m_len;
+    return row >= 1 && row <= gridSize && col >= 1 && col <= gridSize;
 }
 
 }
