@@ -1,12 +1,13 @@
 import edu.princeton.cs.algs4.WeightedQuickUnionUF;
 
 public class Percolation {
-private final WeightedQuickUnionUF quickUnionUF;
-private boolean[] isOpenSites;
+
+private final WeightedQuickUnionUF ufPerc;
+private final WeightedQuickUnionUF uf;
+private byte[] sites;           // 0 - blocked, 1 - open
 private int openSiteCount = 0;
-private final int topSite = 0;
-private final int botSite = 1;
-private final int siteOffset = 2;
+private final int topSite;
+private final int botSite;
 private final int gridSize;
 
 public Percolation(int n)
@@ -16,8 +17,11 @@ public Percolation(int n)
         throw new IllegalArgumentException("Ctor wrong grid size: " + n);
     }
 
-    quickUnionUF = new WeightedQuickUnionUF(n * n + 2);
-    isOpenSites = new boolean[n * n];
+    uf = new WeightedQuickUnionUF(n * n + 2);
+    ufPerc = new WeightedQuickUnionUF(n * n + 2);
+    sites = new byte[n * n];
+    topSite = n * n;
+    botSite = n * n + 1;
     gridSize = n;
 }
 
@@ -28,35 +32,56 @@ public void open(int row, int col)
         throw new IllegalArgumentException("Wrong arguments row: " + row + " col: " + col);
     }
 
-    if (isOpen(row, col))
+    if (isOpen(row, col) || isFull(row, col))
     {
         return;
     }
 
     ++openSiteCount;
-
     int siteIndex = getSiteIndex(row, col);
-    isOpenSites[siteIndex] = true;
+    sites[siteIndex] = 1;
 
-    if (siteIndex % gridSize < gridSize - 1 && isOpenSites[siteIndex + 1])
-        quickUnionUF.union(siteIndex + siteOffset, siteIndex + 1 + siteOffset);
-    if (siteIndex % gridSize > 0 && isOpenSites[siteIndex - 1])
-        quickUnionUF.union(siteIndex + siteOffset, siteIndex - 1 + siteOffset);
-    if (siteIndex / gridSize > 0 && isOpenSites[siteIndex - gridSize])
-        quickUnionUF.union(siteIndex + siteOffset, siteIndex - gridSize + siteOffset);
-    if (siteIndex / gridSize < gridSize - 1 && isOpenSites[siteIndex + gridSize])
-        quickUnionUF.union(siteIndex + siteOffset, siteIndex + gridSize + siteOffset);
-
-    // Try to connect with virtual top and bottom site
+    // Try to connect with virtual top site
     if (row == 1)
-        quickUnionUF.union(topSite, siteIndex + siteOffset);
+    {
+        uf.union(siteIndex, topSite);
+        ufPerc.union(siteIndex, topSite);
+    }
 
-    boolean isNearFull = (siteIndex % gridSize < gridSize - 1 && quickUnionUF.connected(topSite, siteIndex + 1 + siteOffset))
-            || (siteIndex % gridSize > 0 && quickUnionUF.connected(topSite, siteIndex - 1 + siteOffset))
-            || (siteIndex / gridSize > 0 && quickUnionUF.connected(topSite, siteIndex - gridSize + siteOffset));
+    // Try to connect with virtual bottom site
+    if (row == gridSize)
+    {
+        // Not union in uf container to avoid errors with isFull method
+        ufPerc.union(siteIndex, botSite);
+    }
 
-    if (row == gridSize && isNearFull)
-        quickUnionUF.union(botSite, siteIndex + siteOffset);
+    // Try to connect with up site
+    if (row > 1 && isOpen(row - 1, col))
+    {
+        uf.union(siteIndex, getSiteIndex(row - 1, col));
+        ufPerc.union(siteIndex, getSiteIndex(row - 1, col));
+    }
+
+    // Try to connect with left site
+    if (col > 1 && isOpen(row, col - 1))
+    {
+        uf.union(siteIndex, getSiteIndex(row, col - 1));
+        ufPerc.union(siteIndex, getSiteIndex(row, col - 1));
+    }
+
+    // Try to connect with down sil
+    if (row < gridSize && isOpen(row + 1, col))
+    {
+        uf.union(siteIndex, getSiteIndex(row + 1, col));
+        ufPerc.union(siteIndex, getSiteIndex(row + 1, col));
+    }
+
+    // Try to connect with left sil
+    if (col < gridSize && isOpen(row, col + 1))
+    {
+        uf.union(siteIndex, getSiteIndex(row, col + 1));
+        ufPerc.union(siteIndex, getSiteIndex(row, col + 1));
+    }
 }
 
 public boolean isOpen(int row, int col)
@@ -66,8 +91,7 @@ public boolean isOpen(int row, int col)
         throw new IllegalArgumentException("Wrong arguments row: " + row + " col: " + col);
     }
 
-    int siteIndex = getSiteIndex(row, col);
-    return isOpenSites[siteIndex];
+    return sites[getSiteIndex(row, col)] == 1;
 }
 
 public boolean isFull(int row, int col)
@@ -77,7 +101,7 @@ public boolean isFull(int row, int col)
         throw new IllegalArgumentException("Wrong arguments row: " + row + " col: " + col);
     }
 
-    return quickUnionUF.connected(topSite, getSiteIndex(row, col) + siteOffset);
+    return uf.connected(getSiteIndex(row, col), topSite);
 }
 
 public int numberOfOpenSites()
@@ -87,7 +111,7 @@ public int numberOfOpenSites()
 
 public boolean percolates()
 {
-    return quickUnionUF.connected(topSite, botSite);
+    return ufPerc.connected(topSite, botSite);
 }
 
 private int getSiteIndex(int row, int col)

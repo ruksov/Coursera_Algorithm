@@ -15,17 +15,17 @@
       <file leaf-file-name="Percolation.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/Percolation.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="374">
-              <caret line="55" column="40" lean-forward="false" selection-start-line="55" selection-start-column="40" selection-end-line="55" selection-end-column="40" />
+            <state relative-caret-position="169">
+              <caret line="34" column="28" lean-forward="true" selection-start-line="34" selection-start-column="28" selection-end-line="34" selection-end-column="28" />
               <folding>
-                <element signature="e#2652#2653#0" expanded="true" />
-                <element signature="e#2680#2681#0" expanded="true" />
-                <element signature="e#2711#2712#0" expanded="true" />
-                <element signature="e#2766#2767#0" expanded="true" />
-                <element signature="e#2812#2813#0" expanded="true" />
-                <element signature="e#2859#2860#0" expanded="true" />
-                <element signature="e#2906#2907#0" expanded="true" />
-                <element signature="e#2979#2980#0" expanded="true" />
+                <element signature="e#2694#2695#0" expanded="true" />
+                <element signature="e#2722#2723#0" expanded="true" />
+                <element signature="e#2753#2754#0" expanded="true" />
+                <element signature="e#2802#2803#0" expanded="true" />
+                <element signature="e#2848#2849#0" expanded="true" />
+                <element signature="e#2895#2896#0" expanded="true" />
+                <element signature="e#2942#2943#0" expanded="true" />
+                <element signature="e#3015#3016#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -118,14 +118,14 @@
         <option value="$PROJECT_DIR$/src/PercolationVisualizer.java" />
         <option value="$PROJECT_DIR$/src/PercolationStatsVizualizable.java" />
         <option value="$PROJECT_DIR$/src/PercolationStats.java" />
-        <option value="$PROJECT_DIR$/src/Percolation.java" />
         <option value="$PROJECT_DIR$/src/InteractivePercolationVisualizer.java" />
+        <option value="$PROJECT_DIR$/src/Percolation.java" />
       </list>
     </option>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="391" />
-    <option name="y" value="28" />
+    <option name="x" value="547" />
+    <option name="y" value="102" />
     <option name="width" value="1400" />
     <option name="height" value="1019" />
   </component>
@@ -326,7 +326,7 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="391" y="28" width="1400" height="1019" extended-state="0" />
+    <frame x="547" y="102" width="1400" height="1019" extended-state="0" />
     <editor active="true" />
     <layout>
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
@@ -369,8 +369,14 @@
           <properties />
           <option name="timeStamp" value="1" />
         </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/Percolation.java</url>
+          <line>39</line>
+          <properties />
+          <option name="timeStamp" value="6" />
+        </line-breakpoint>
       </breakpoints>
-      <option name="time" value="5" />
+      <option name="time" value="7" />
     </breakpoint-manager>
     <watches-manager />
   </component>
@@ -389,14 +395,14 @@
         <state relative-caret-position="1547">
           <caret line="91" column="40" lean-forward="false" selection-start-line="91" selection-start-column="40" selection-end-line="91" selection-end-column="40" />
           <folding>
-            <element signature="e#2652#2653#0" expanded="true" />
-            <element signature="e#2680#2681#0" expanded="true" />
-            <element signature="e#2711#2712#0" expanded="true" />
-            <element signature="e#2766#2767#0" expanded="true" />
-            <element signature="e#2812#2813#0" expanded="true" />
-            <element signature="e#2859#2860#0" expanded="true" />
-            <element signature="e#2906#2907#0" expanded="true" />
-            <element signature="e#2979#2980#0" expanded="true" />
+            <element signature="e#2694#2695#0" expanded="true" />
+            <element signature="e#2722#2723#0" expanded="true" />
+            <element signature="e#2753#2754#0" expanded="true" />
+            <element signature="e#2802#2803#0" expanded="true" />
+            <element signature="e#2848#2849#0" expanded="true" />
+            <element signature="e#2895#2896#0" expanded="true" />
+            <element signature="e#2942#2943#0" expanded="true" />
+            <element signature="e#3015#3016#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -514,17 +520,17 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/Percolation.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="374">
-          <caret line="55" column="40" lean-forward="false" selection-start-line="55" selection-start-column="40" selection-end-line="55" selection-end-column="40" />
+        <state relative-caret-position="169">
+          <caret line="34" column="28" lean-forward="true" selection-start-line="34" selection-start-column="28" selection-end-line="34" selection-end-column="28" />
           <folding>
-            <element signature="e#2652#2653#0" expanded="true" />
-            <element signature="e#2680#2681#0" expanded="true" />
-            <element signature="e#2711#2712#0" expanded="true" />
-            <element signature="e#2766#2767#0" expanded="true" />
-            <element signature="e#2812#2813#0" expanded="true" />
-            <element signature="e#2859#2860#0" expanded="true" />
-            <element signature="e#2906#2907#0" expanded="true" />
-            <element signature="e#2979#2980#0" expanded="true" />
+            <element signature="e#2694#2695#0" expanded="true" />
+            <element signature="e#2722#2723#0" expanded="true" />
+            <element signature="e#2753#2754#0" expanded="true" />
+            <element signature="e#2802#2803#0" expanded="true" />
+            <element signature="e#2848#2849#0" expanded="true" />
+            <element signature="e#2895#2896#0" expanded="true" />
+            <element signature="e#2942#2943#0" expanded="true" />
+            <element signature="e#3015#3016#0" expanded="true" />
           </folding>
         </state>
       </provider>
